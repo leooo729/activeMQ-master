@@ -91,9 +91,9 @@ class ProducerTest {
 //        ObjectMapper om = new ObjectMapper();
 //        List<Mgni>b=om.readValue(response, List.class);
 //        Mgni b= om.readValue(response, Mgni.class);
-
+//
 //        when(this.transferService.searchTargetMgni(any())).thenReturn(b);
-
+//
 //        System.out.println(b);
 //        String expectedStr = om.writeValueAsString(b);
 
@@ -103,7 +103,6 @@ class ProducerTest {
                 mockMvc.perform(
                                 get("/produce/search").content(requestBoby).contentType(MediaType.APPLICATION_JSON)
                                         .accept(MediaType.APPLICATION_JSON)
-
                         )
                         // 輸出整個回應結果訊息
                         .andDo(print());
