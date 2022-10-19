@@ -28,27 +28,27 @@ public class JmsConfig {
         return factory;
     }
 
-//    @Bean
-//    public JmsListenerContainerFactory<?> topicConnectionFactory(ConnectionFactory connectionFactory,
-//                                                                 DefaultJmsListenerContainerFactoryConfigurer configure) {
-//        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-//        configure.configure(factory, connectionFactory);
-//        factory.setBackOff(new FixedBackOff(5000,5));
-//        factory.setPubSubDomain(true);
-//        return factory;
-//    }
-
     @Bean
-    public DynamicDestinationResolver destinationResolver() {
-        return new DynamicDestinationResolver() {
-            @Override
-            public Destination resolveDestinationName(Session session, String destinationName, boolean pubSubDomain) throws JMSException, JMSException {
-                if (destinationName.endsWith(".topic")) {
-                    pubSubDomain = true;
-                }
-                return super.resolveDestinationName(session, destinationName, pubSubDomain);
-            }
-        };
+    public JmsListenerContainerFactory<?> topicConnectionFactory(ConnectionFactory connectionFactory,
+                                                                 DefaultJmsListenerContainerFactoryConfigurer configure) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        configure.configure(factory, connectionFactory);
+        factory.setBackOff(new FixedBackOff(5000,3));
+        factory.setPubSubDomain(true);
+        return factory;
     }
+
+//    @Bean
+//    public DynamicDestinationResolver destinationResolver() {
+//        return new DynamicDestinationResolver() {
+//            @Override
+//            public Destination resolveDestinationName(Session session, String destinationName, boolean pubSubDomain) throws JMSException, JMSException {
+//                if (destinationName.endsWith(".topic")) {
+//                    pubSubDomain = true;
+//                }
+//                return super.resolveDestinationName(session, destinationName, pubSubDomain);
+//            }
+//        };
+//    }
 
 }

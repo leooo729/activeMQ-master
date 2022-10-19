@@ -1,11 +1,7 @@
 package com.example.jms_demo_2.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
-
-import javax.jms.Queue;
 
 @Component
 public class Consumer {
@@ -16,11 +12,16 @@ public class Consumer {
 //    @Autowired
 //    private Queue queue;
 
-    @JmsListener(destination = "test.queue",containerFactory = "queueConnectionFactory")
+    @JmsListener(destination = "test.queue", containerFactory = "queueConnectionFactory")
     public void consumeMessage(String message) {
         System.out.println("============================================\n");
         System.out.println("Message received from activemq queue---\n" + message);
+
     }
 
+    @JmsListener(destination = "test.topic", containerFactory = "topicConnectionFactory")
+    public void readActiveQueue(String msg) {
+        System.out.println("Q1 : " + msg);
+    }
 }
 

@@ -12,6 +12,7 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Queue;
+import javax.jms.Topic;
 
 @Configuration
 @EnableJms //開啟jms註解
@@ -21,15 +22,23 @@ public class SpringActiveMQConfig {
 
     @Value("${queue}")
     private String testQueue;
+    @Value("${topic}")
+    private String testTopic;
+
     @Bean
     public Queue queue() {
         return new ActiveMQQueue(testQueue);
     }
+    @Bean
+    public Topic topic() {
+        return new ActiveMQTopic(testTopic);
+    }
+
 
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
         //建立ConnectionFactory工廠，需要填入名稱、密码、連接地址
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ActiveMQConnectionFactory.DEFAULT_USER,ActiveMQConnectionFactory.DEFAULT_PASSWORD,
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ActiveMQConnectionFactory.DEFAULT_USER, ActiveMQConnectionFactory.DEFAULT_PASSWORD,
                 "failover:(tcp://localhost:61616)?initialReconnectDelay=1000&maxReconnectDelay=30000");
         //initialReconnectDelay 第一次嘗試重連之前等待的時間 //maxReconnectDelay 兩次重連之間的最大時間間隔
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
@@ -41,7 +50,7 @@ public class SpringActiveMQConfig {
         queuePolicy.setMaximumRedeliveries(5);// 最大重傳次数
 
         RedeliveryPolicyMap map = activeMQConnectionFactory.getRedeliveryPolicyMap();
-        map.put(new ActiveMQQueue("test.queue"),queuePolicy);
+        map.put(new ActiveMQQueue("test.queue"), queuePolicy);
 //        activeMQConnectionFactory.setRedeliveryPolicy(queuePolicy);
 
         return activeMQConnectionFactory;

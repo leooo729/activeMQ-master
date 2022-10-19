@@ -8,13 +8,11 @@ import com.example.jms_demo_2.controller.dto.response.StatusResponse;
 import com.example.jms_demo_2.model.entity.Mgni;
 import com.example.jms_demo_2.service.TransferService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jms.Destination;
 import javax.jms.Queue;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -24,7 +22,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/produce")
-public class Producer {
+public class PTPProducer {
     @Autowired
     private JmsTemplate jmsTemplate;
     @Autowired

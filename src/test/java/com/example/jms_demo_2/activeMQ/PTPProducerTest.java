@@ -1,7 +1,6 @@
 package com.example.jms_demo_2.activeMQ;
 
-import com.example.jms_demo_2.controller.Producer;
-import com.example.jms_demo_2.model.entity.Mgni;
+import com.example.jms_demo_2.controller.PTPProducer;
 import com.example.jms_demo_2.service.TransferService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -21,10 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -32,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-class ProducerTest {
+class PTPProducerTest {
     // 利用 mock 技術模擬出對資料庫連結的物件
     @Mock
     private TransferService transferService;
@@ -41,7 +37,7 @@ class ProducerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private Producer producer;
+    private PTPProducer PTPProducer;
 
 
     @Autowired
@@ -53,7 +49,7 @@ class ProducerTest {
     public void setup() throws Exception {
         // standaloneSetup 表示通過參數指定一組控制器，這樣就不需要從上下文獲取
 //        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();//webAppContextSetup
-        mockMvc = MockMvcBuilders.standaloneSetup(producer).build();//webAppContextSetup
+        mockMvc = MockMvcBuilders.standaloneSetup(PTPProducer).build();//webAppContextSetup
 
     }
 
