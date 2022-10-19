@@ -1,7 +1,10 @@
 package com.example.jms_demo_2.activeMQ;
 
 import com.example.jms_demo_2.controller.Producer;
+import com.example.jms_demo_2.model.entity.Mgni;
 import com.example.jms_demo_2.service.TransferService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +21,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -86,12 +92,12 @@ class ProducerTest {
 
     @Test
     void searchTargetMgni() throws Exception {
-//        String response = "[{\"id\":\"MGI20221017012143744\",\"time\":\"2022-10-17T00:00:00\",\"type\": \"1\",\"cmNo\": \"3\",\"kacType\": \"1\",\"bankNo\":\"003\",\"ccy\": \"TWD\",\"pvType\": \"1\",\"bicaccNo\": \"0000000\",\"amt\": 1700.0000,\"ctName\": \"Leo\",\"ctTel\":\"26262626\",\"status\": \"1\",\"cashiList\": [{\"mgniId\":\"MGI20221017012143744\",\"accNo\":\"1\",\"ccy\":\"TWD\",\"amt\":1000.0000000},{\"mgniId\":\"MGI20221017012143744\",\"accNo\":\"2\",\"ccy\":\"TWD\",\"amt\":700.0000000}],\"itype\":\"\",\"preason\":\" \",\"utime\":\"2022-10-17T00:00:00\"}]";
-//
-//        ObjectMapper om = new ObjectMapper();
+        String response = "[{\"id\":\"MGI20221017012143744\",\"time\":\"2022-10-17T00:00:00\",\"type\":\"1\",\"cmNo\":\"3\",\"kacType\":\"1\",\"bankNo\":\"003\",\"ccy\":\"TWD\",\"pvType\":\"1\",\"bicaccNo\":\"0000000\",\"amt\":1700.0000,\"ctName\":\"Leo\",\"ctTel\":\"26262626\",\"status\":\"1\",\"cashiList\":[{\"mgniId\":\"MGI20221017012143744\",\"accNo\":\"1\",\"ccy\":\"TWD\",\"amt\":1000.0000000},{\"mgniId\":\"MGI20221017012143744\",\"accNo\":\"2\",\"ccy\":\"TWD\",\"amt\":700.0000000}],\"utime\":\"2022-10-17T00:00:00\",\"preason\":\"\",\"itype\":\"\"}]";
+
+        ObjectMapper om = new ObjectMapper();
 //        List<Mgni>b=om.readValue(response, List.class);
 //        Mgni b= om.readValue(response, Mgni.class);
-//
+
 //        when(this.transferService.searchTargetMgni(any())).thenReturn(b);
 //
 //        System.out.println(b);
@@ -114,6 +120,6 @@ class ProducerTest {
 //        System.out.println(expectedStr);
 //        System.out.println(actual);
 //
-//        Assert.assertEquals(expectedStr,actual);
+        Assert.assertEquals(response,actual);
     }
 }

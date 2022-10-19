@@ -79,8 +79,8 @@ public class Producer {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
     }
 
-    private void jmsTemplate(Queue queue, String j) {
-        jmsTemplate.convertAndSend(queue, j);
+    private void jmsTemplate(Queue queue, String response) {
+        jmsTemplate.convertAndSend(queue, response);
     }
 
 }

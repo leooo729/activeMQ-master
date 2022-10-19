@@ -16,10 +16,11 @@ public class Consumer {
 //    @Autowired
 //    private Queue queue;
 
-    @JmsListener(destination = "test.queue")
+    @JmsListener(destination = "test.queue",containerFactory = "queueConnectionFactory")
     public void consumeMessage(String message) {
         System.out.println("============================================\n");
         System.out.println("Message received from activemq queue---\n" + message);
     }
+
 }
 
