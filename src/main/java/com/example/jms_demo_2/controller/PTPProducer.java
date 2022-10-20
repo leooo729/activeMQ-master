@@ -31,8 +31,6 @@ public class PTPProducer {
     private TransferService transferService;
     private static ObjectMapper mapper = new ObjectMapper();
 
-
-
     @PostMapping
     public Mgni createMgni(@Valid @RequestBody DepositRequest request) throws Exception {
 

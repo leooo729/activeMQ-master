@@ -1,16 +1,10 @@
-package com.example.jms_demo_2.Client;
+package com.example.jms_demo_2.client;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Consumer {
-
-//    @Autowired
-//    private JmsTemplate jmsTemplate;
-//
-//    @Autowired
-//    private Queue queue;
 
     @JmsListener(destination = "test.queue", containerFactory = "queueConnectionFactory")
     public void consumeMessage(String message) {
