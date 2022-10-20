@@ -1,4 +1,4 @@
-package com.example.jms_demo_2.controller;
+package com.example.jms_demo_2.Client;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,9 @@ public class Consumer {
     }
 
     @JmsListener(destination = "test.topic", containerFactory = "topicConnectionFactory")
-    public void readActiveQueue(String msg) {
-        System.out.println("Q1 : " + msg);
+    public void readActiveQueue(String message) {
+        System.out.println("============================================\n");
+        System.out.println("Message received from activemq queue---\n" + message);
     }
 }
 

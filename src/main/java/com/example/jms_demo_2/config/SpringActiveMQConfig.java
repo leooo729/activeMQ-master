@@ -38,20 +38,24 @@ public class SpringActiveMQConfig {
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
         //建立ConnectionFactory工廠，需要填入名稱、密码、連接地址
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ActiveMQConnectionFactory.DEFAULT_USER, ActiveMQConnectionFactory.DEFAULT_PASSWORD,
-                "failover:(tcp://localhost:61616)?initialReconnectDelay=1000&maxReconnectDelay=30000");
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
+
+        //ActiveMQConnectionFactory.DEFAULT_USER, ActiveMQConnectionFactory.DEFAULT_PASSWORD,
+        //failover:(tcp://localhost:61616)?initialReconnectDelay=1000&maxReconnectDelay=30000"
         //initialReconnectDelay 第一次嘗試重連之前等待的時間 //maxReconnectDelay 兩次重連之間的最大時間間隔
+
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
 
+        //若消息达到尝试次数消费失败或者超时等，会进入死信队列ActiveMQ.DLQ
         RedeliveryPolicy queuePolicy = new RedeliveryPolicy();
         queuePolicy.setInitialRedeliveryDelay(0); //初始重發延遲時間
         queuePolicy.setRedeliveryDelay(1000);//重發延遲時間
         queuePolicy.setUseExponentialBackOff(false); //是否在每次失敗重發時，增長等待時間
         queuePolicy.setMaximumRedeliveries(5);// 最大重傳次数
 
-        RedeliveryPolicyMap map = activeMQConnectionFactory.getRedeliveryPolicyMap();
-        map.put(new ActiveMQQueue("test.queue"), queuePolicy);
-//        activeMQConnectionFactory.setRedeliveryPolicy(queuePolicy);
+//        RedeliveryPolicyMap map = activeMQConnectionFactory.getRedeliveryPolicyMap();
+//        map.put(new ActiveMQQueue("test.queue"), queuePolicy);
+        activeMQConnectionFactory.setRedeliveryPolicy(queuePolicy);
 
         return activeMQConnectionFactory;
     }
