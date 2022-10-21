@@ -1,5 +1,7 @@
 package com.example.jms_demo_2.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -54,8 +56,10 @@ public class Mgni {
     @Column(name = "MGNI_BICACC_NO")
     private String bicaccNo;
     @Column(name = "MGNI_I_TYPE")
+    @JsonProperty(value = "iType")
     private String iTYPE;
     @Column(name = "MGNI_P_REASON")
+    @JsonProperty(value = "pReason")
     private String pReason;
     @Column(name = "MGNI_AMT")
     private BigDecimal amt;
@@ -65,9 +69,9 @@ public class Mgni {
     private String ctTel;
     @Column(name = "MGNI_STATUS")
     private String status;
-
     @LastModifiedDate
     @Column(name = "MGNI_U_TIME")
+    @JsonProperty(value = "uTime")
 //    @JsonSerialize(using = LocalDateTimeSerializer.class)
 //    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
 //    @XmlJavaTypeAdapter(DateAdapter.class)

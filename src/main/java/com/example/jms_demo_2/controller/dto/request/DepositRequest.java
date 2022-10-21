@@ -18,7 +18,7 @@ import java.util.List;
 //@Validated
 
 public class DepositRequest {
-//        private String id;
+        private String id;
 //        private LocalDateTime time;
 //        @NotEmpty
 //        @Pattern(regexp = "^$|(1)",message = "請輸入代碼：1(入金)")

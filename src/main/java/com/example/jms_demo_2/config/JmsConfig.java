@@ -16,7 +16,6 @@ import javax.jms.ConnectionFactory;
 @Configuration
 @EnableJms//創建一個配置類並使用@EnableJms註釋啟用 JMS 並配置ConnectionFactory以連接到我們的 ActiveMQ 實例
 public class JmsConfig {
-    //  配置Bean 如同spring框架下的applicationcontext.xml
     private String brokerUrl = "tcp://localhost:61616";
 
     //伺服端必須設定好ConnectionFactory以及Destination，JMS端點取得ConnectionFactory，
@@ -27,12 +26,8 @@ public class JmsConfig {
     }
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
-        //建立ConnectionFactory工廠，需要填入名稱、密码、連接地址
+        //建立ConnectionFactory工廠
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
-
-        //ActiveMQConnectionFactory.DEFAULT_USER, ActiveMQConnectionFactory.DEFAULT_PASSWORD,
-        //failover:(tcp://localhost:61616)?initialReconnectDelay=1000&maxReconnectDelay=30000"
-        //initialReconnectDelay 第一次嘗試重連之前等待的時間 //maxReconnectDelay 兩次重連之間的最大時間間隔
 
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
 
@@ -43,8 +38,6 @@ public class JmsConfig {
         queuePolicy.setUseExponentialBackOff(false); //是否在每次失敗重發時，增長等待時間
         queuePolicy.setMaximumRedeliveries(5);// 最大重傳次数
 
-//        RedeliveryPolicyMap map = activeMQConnectionFactory.getRedeliveryPolicyMap();
-//        map.put(new ActiveMQQueue("test.queue"), queuePolicy);
         activeMQConnectionFactory.setRedeliveryPolicy(queuePolicy);
 
         return activeMQConnectionFactory;

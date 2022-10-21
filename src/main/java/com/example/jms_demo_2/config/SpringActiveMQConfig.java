@@ -14,16 +14,24 @@ import javax.jms.Queue;
 import javax.jms.Topic;
 
 @Configuration
-@EnableJms //開啟jms註解
 public class SpringActiveMQConfig {
-    @Value("${queue}")
-    private String testQueue;
+    //  配置Bean 如同spring框架下的applicationcontext.xml
+
+    @Value("${responseQueue}")
+    private String responseQueue;
+
+    @Value("${requestQueue}")
+    private String requestQueue;
     @Value("${topic}")
     private String testTopic;
 
     @Bean
-    public Queue queue() {
-        return new ActiveMQQueue(testQueue);
+    public Queue responseQueue() {
+        return new ActiveMQQueue(responseQueue);
+    }
+    @Bean
+    public Queue requestQueue() {
+        return new ActiveMQQueue(requestQueue);
     }
     @Bean
     public Topic topic() {
