@@ -1,5 +1,6 @@
 package com.example.jms_demo_2.controller;
 
+
 import com.example.jms_demo_2.controller.dto.request.DeleteCashiRequest;
 import com.example.jms_demo_2.controller.dto.request.DepositRequest;
 import com.example.jms_demo_2.controller.dto.request.SearchMgniRequest;
@@ -43,8 +44,8 @@ public class TransferController {
     }
 
 
-    @PostMapping("/search/{page}")
-    public List<Mgni> searchTargetMgni(@PathVariable @Pattern(regexp = "^$|[0-9]+", message = "請輸入數字") String page,
+    @PostMapping("/search")
+    public List<Mgni> searchTargetMgni(
                                        @Valid @RequestBody SearchMgniRequest request) throws Exception {
         List<Mgni> mgniList = transferService.searchTargetMgni(request);//page
         return mgniList;

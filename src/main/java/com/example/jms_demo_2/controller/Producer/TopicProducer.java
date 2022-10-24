@@ -1,4 +1,4 @@
-package com.example.jms_demo_2.controller;
+package com.example.jms_demo_2.controller.Producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

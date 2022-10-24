@@ -1,6 +1,7 @@
 package com.example.jms_demo_2.service;
 
 
+
 import com.example.jms_demo_2.controller.dto.request.DeleteCashiRequest;
 import com.example.jms_demo_2.controller.dto.request.DepositRequest;
 import com.example.jms_demo_2.controller.dto.request.SearchMgniRequest;
@@ -13,10 +14,9 @@ import com.example.jms_demo_2.model.CashiRepository;
 import com.example.jms_demo_2.model.MgniRepository;
 import com.example.jms_demo_2.model.entity.Cashi;
 import com.example.jms_demo_2.model.entity.Mgni;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.json.JSONObject;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -36,8 +36,61 @@ import java.util.stream.Collectors;
 public class TransferService {
     final private MgniRepository mgniRepository;
     final private CashiRepository cashiRepository;
+    private static ObjectMapper om = new ObjectMapper();
 
+    public String getResponse(String request) throws Exception {
 
+        JSONObject jsonObject = new JSONObject(request);
+
+        String requestType = jsonObject.getString("requestType");
+
+        JSONObject requestBodyJson = jsonObject.getJSONObject("request");
+        String requestBody=JSONObject.valueToString(requestBodyJson);
+
+        String response="";
+
+        switch (requestType) {
+//            case "0": {
+//                bw.write(DatabaseCRUD.getTargetCashi(request.getString("id")));
+//                break;
+//            }
+            case "search": {//bankService.deposit(objectMapper.readValue(requestBody, DepositRequest.class))
+                response = json(searchTargetMgni(om.readValue(requestBody, SearchMgniRequest.class)));
+                System.out.println(response);
+                break;
+            }
+//            case "2": {
+//                bw.write(DatabaseCRUD.dynamicQueryMgni(request));
+//                break;
+//            }
+            case "create": {
+                response = json(createMgni(om.readValue(requestBody, DepositRequest.class)));
+                System.out.println(response);
+                break;
+            }
+            case "update": {
+                response = json(updateMgni(jsonObject.getString("id"),om.readValue(requestBody, DepositRequest.class)));
+                System.out.println(response);
+                break;
+            }
+            case "delete": {
+                response = json(deleteMgni(requestBodyJson.getString("id")));
+                System.out.println(response);
+                break;
+            }
+            default: {
+                response="請輸入有效查詢資料";
+                break;
+            }
+        }
+        return response;
+    }
+    private static String json(Object object) throws Exception {
+        om.findAndRegisterModules();
+        return om.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+    }
+
+    //----------------------------------------------------------------------------------------------------
     public MgniListResponse getAllMgni() throws Exception {
         checkMgniExist();
         MgniListResponse response = new MgniListResponse();
@@ -53,8 +106,8 @@ public class TransferService {
             throw new Exception("此ID已存在");
         }
         mgni = setDepositInfo(mgni, request);
-;
-        mgniRepository.save(mgni);
+
+//        mgniRepository.save(mgni);
 
         return mgniRepository.findMgniById(mgni.getId());
     }
@@ -72,12 +125,11 @@ public class TransferService {
         return mgni;
     }
 
-
     public Mgni updateMgni(String id, DepositRequest request) throws Exception {
         checkMgniExist(id);
         Mgni mgni = mgniRepository.findMgniById(id);
         mgni = setDepositInfo(mgni, request);
-        mgniRepository.save(mgni);
+//        mgniRepository.save(mgni);
         return mgni;
     }
 
@@ -119,14 +171,14 @@ public class TransferService {
         checkCashiExist(request.getMgniId(), request.getAccNo(), request.getCcy());
         Cashi cashi = cashiRepository.findTargetCashi(request.getMgniId(), request.getAccNo(), request.getCcy());
         cashiRepository.delete(cashi);
-        if(checkCashiExist(request.getMgniId())==false){
-            return new DeleteResponse("Cashi已全部刪除，無資料",null);
+        if (checkCashiExist(request.getMgniId()) == false) {
+            return new DeleteResponse("Cashi已全部刪除，無資料", null);
         }
         Mgni mgni = mgniRepository.findMgniById(request.getMgniId());
         mgni.setAmt(countAmt(mgni.getCashiList()));
 
         mgniRepository.save(mgni);
-        return new DeleteResponse("刪除成功",mgniRepository.findMgniById(request.getMgniId()));
+        return new DeleteResponse("刪除成功", mgniRepository.findMgniById(request.getMgniId()));
     }
 
     public StatusResponse deleteMgni(String id) throws Exception {
@@ -160,7 +212,7 @@ public class TransferService {
         }
         BigDecimal totalAmt = new BigDecimal(0);
 
-        List<Cashi> cashiList= new ArrayList<>();
+        List<Cashi> cashiList = new ArrayList<>();
         for (String targetAcc : accList) {
             BigDecimal amt = new BigDecimal(0);
             for (CashiAccAmt cashiAccAmt : request.getAccAmt()) {
@@ -175,7 +227,7 @@ public class TransferService {
         }
         mgni.setCashiList(cashiList);
         mgni.setAmt(totalAmt);
-
+        mgniRepository.save(mgni);
         return mgni;
     }
 
@@ -218,12 +270,12 @@ public class TransferService {
         }
         return true;
     }
-    private Boolean checkCashiExist(String id){
-        if(cashiRepository.findCashiListById(id).isEmpty()){
+
+    private Boolean checkCashiExist(String id) {
+        if (cashiRepository.findCashiListById(id).isEmpty()) {
             mgniRepository.deleteById(id);
             return false;
         }
         return true;
     }
-
 }

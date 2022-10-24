@@ -1,6 +1,6 @@
 package com.example.jms_demo_2;
 
-import com.example.jms_demo_2.controller.TopicProducer;
+import com.example.jms_demo_2.controller.Producer.TopicProducer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

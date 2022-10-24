@@ -1,6 +1,7 @@
 package com.example.jms_demo_2.model;
 
 
+
 import com.example.jms_demo_2.model.entity.Cashi;
 import com.example.jms_demo_2.model.entity.CashiRelationPK;
 import org.springframework.data.jpa.repository.JpaRepository;
