@@ -1,6 +1,11 @@
 package com.example.jms_demo_2.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +33,9 @@ public class Mgni {
     private String id;
     @CreatedDate
     @Column(name = "MGNI_TIME")
-//    @JsonSerialize(using = LocalDateTimeSerializer.class)
-//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
 //    @XmlJavaTypeAdapter(DateAdapter.class)
     private LocalDateTime time;
     @Column(name = "MGNI_TYPE")
@@ -63,13 +69,12 @@ public class Mgni {
     @LastModifiedDate
     @Column(name = "MGNI_U_TIME")
     @JsonProperty(value = "uTime")
-//    @JsonSerialize(using = LocalDateTimeSerializer.class)
-//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-//    @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime uTime;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "mgniId",fetch = FetchType.EAGER) //指定實體被關聯處理 // 直接載入關聯物件
-//    @JoinColumn(name = "CASHI_MGNI_ID")
     private List<Cashi> cashiList;
 
 }

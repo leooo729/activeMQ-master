@@ -20,7 +20,7 @@ public class JmsConfig {
 
     //伺服端必須設定好ConnectionFactory以及Destination，JMS端點取得ConnectionFactory，
     // 使用其與伺服端建立連線，連線以Connection介面定義。
-    @Bean //消息的發送接收
+    @Bean //消息的發送
     public JmsTemplate jmsTemplate() {
         return new JmsTemplate(activeMQConnectionFactory());
     }
@@ -63,18 +63,4 @@ public class JmsConfig {
         factory.setPubSubDomain(true);
         return factory;
     }
-
-//    @Bean
-//    public DynamicDestinationResolver destinationResolver() {
-//        return new DynamicDestinationResolver() {
-//            @Override
-//            public Destination resolveDestinationName(Session session, String destinationName, boolean pubSubDomain) throws JMSException, JMSException {
-//                if (destinationName.endsWith(".topic")) {
-//                    pubSubDomain = true;
-//                }
-//                return super.resolveDestinationName(session, destinationName, pubSubDomain);
-//            }
-//        };
-//    }
-
 }

@@ -1,18 +1,17 @@
 package com.example.jms_demo_2.controller.tcpSocket;
 
 import com.example.jms_demo_2.config.SpringUtil;
-import com.example.jms_demo_2.service.TransferService;
+import com.example.jms_demo_2.service.GetResponseService;
 import org.json.JSONException;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.Socket;
 
+//@Component
 public class ClientHandler extends Thread  {
-
-    private TransferService transferService= SpringUtil.getBean(TransferService.class);
-
+    private GetResponseService getResponseService = SpringUtil.getBean(GetResponseService.class);
     private Socket socket;
-
     public ClientHandler(Socket socket) {
         this.socket = socket;
     }
@@ -25,11 +24,12 @@ public class ClientHandler extends Thread  {
 
             String requestStr = br.readLine();
 
-            bw.write(transferService.getResponse(requestStr));
+            bw.write(getResponseService.getResponse(requestStr));
 
             bw.newLine();
             bw.flush();
             //-------------------------------------------------------
+            System.out.println(currentThread().getName());
             socket.close();
 
         } catch (IOException e) {

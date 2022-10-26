@@ -189,9 +189,9 @@ public class TransferService {
 
     //----------------------------------------------------------------Method
     private Mgni setDepositInfo(Mgni mgni, DepositRequest request) throws Exception {
-        if (mgniRepository.findMgniById(mgni.getId()) != null) {
-            cashiRepository.deleteCashiById(mgni.getId());
-        }
+//        if (mgniRepository.findMgniById(mgni.getId()) != null) {
+//            cashiRepository.deleteCashiById(mgni.getId());
+//        }
         mgni.setType("1");
         mgni.setCmNo(request.getCmNo());
         mgni.setKacType(request.getKacType());
